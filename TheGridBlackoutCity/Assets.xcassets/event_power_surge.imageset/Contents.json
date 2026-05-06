@@ -1,0 +1,13 @@
+﻿{
+    "images":  [
+                   {
+                       "filename":  "event_power_surge.png",
+                       "scale":  "1x",
+                       "idiom":  "universal"
+                   }
+               ],
+    "info":  {
+                 "author":  "xcode",
+                 "version":  1
+             }
+}

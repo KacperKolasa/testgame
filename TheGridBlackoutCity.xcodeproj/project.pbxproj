@@ -35,6 +35,7 @@
 		300000000000000000000026 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000026 /* EventsView.swift */; };
 		300000000000000000000027 /* PrestigeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000027 /* PrestigeView.swift */; };
 		300000000000000000000028 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000028 /* SettingsView.swift */; };
+		300000000000000000000216 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000216 /* Assets.xcassets */; };
 		300000000000000000000201 /* blackout_city_backdrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000201 /* blackout_city_backdrop.png */; };
 		300000000000000000000202 /* reactor_core.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000202 /* reactor_core.png */; };
 		300000000000000000000203 /* district_spritesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000203 /* district_spritesheet.png */; };
@@ -99,6 +100,7 @@
 		200000000000000000000027 /* PrestigeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestigeView.swift; sourceTree = "<group>"; };
 		200000000000000000000028 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		200000000000000000000029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		200000000000000000000216 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		200000000000000000000201 /* blackout_city_backdrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackout_city_backdrop.png; sourceTree = "<group>"; };
 		200000000000000000000202 /* reactor_core.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reactor_core.png; sourceTree = "<group>"; };
 		200000000000000000000203 /* district_spritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_spritesheet.png; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				100000000000000000000014 /* Services */,
 				100000000000000000000015 /* ViewModels */,
 				100000000000000000000016 /* Views */,
+				200000000000000000000216 /* Assets.xcassets */,
 				100000000000000000000019 /* Assets */,
 				200000000000000000000029 /* Info.plist */,
 			);
@@ -373,6 +376,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				300000000000000000000216 /* Assets.xcassets in Resources */,
 				300000000000000000000201 /* blackout_city_backdrop.png in Resources */,
 				300000000000000000000202 /* reactor_core.png in Resources */,
 				300000000000000000000203 /* district_spritesheet.png in Resources */,

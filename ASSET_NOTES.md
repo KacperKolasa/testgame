@@ -6,6 +6,10 @@ The game now includes raster assets generated for this project and copied into:
 
 `TheGridBlackoutCity/Assets/Generated`
 
+The same assets are also packaged as named imagesets in:
+
+`TheGridBlackoutCity/Assets.xcassets`
+
 The latest pass intentionally uses a brighter casual idle-tycoon direction: chunky cartoon forms, gold/green rewards, bold outlines, colorful restored districts, and shop-like production readability.
 
 ## Files
@@ -28,7 +32,7 @@ The latest pass intentionally uses a brighter casual idle-tycoon direction: chun
 
 ## Integration
 
-The PNG files are registered in `TheGridBlackoutCity.xcodeproj` under the app target Resources phase. SwiftUI references them by bundle image name through `GameArt` in `Views/Components/MetricComponents.swift`.
+The `.xcassets` catalog is registered in `TheGridBlackoutCity.xcodeproj` under the app target Resources phase. SwiftUI references images by asset-catalog name through `GameArt` in `Views/Components/MetricComponents.swift`.
 
 ## Generation Prompts
 

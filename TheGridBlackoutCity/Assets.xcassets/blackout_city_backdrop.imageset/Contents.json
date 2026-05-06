@@ -1,0 +1,13 @@
+﻿{
+    "images":  [
+                   {
+                       "filename":  "blackout_city_backdrop.png",
+                       "scale":  "1x",
+                       "idiom":  "universal"
+                   }
+               ],
+    "info":  {
+                 "author":  "xcode",
+                 "version":  1
+             }
+}

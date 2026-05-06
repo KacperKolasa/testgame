@@ -1,0 +1,13 @@
+﻿{
+    "images":  [
+                   {
+                       "filename":  "district_solar_farm.png",
+                       "scale":  "1x",
+                       "idiom":  "universal"
+                   }
+               ],
+    "info":  {
+                 "author":  "xcode",
+                 "version":  1
+             }
+}

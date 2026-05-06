@@ -79,35 +79,34 @@ struct CityView: View {
 
     private var resourceStrip: some View {
         VStack(spacing: 9) {
-            Grid(horizontalSpacing: 9, verticalSpacing: 9) {
-                GridRow {
-                    MetricPill(
-                        title: "Power",
-                        value: "\(NumberFormatters.compact(viewModel.state.resources.power))/\(NumberFormatters.compact(viewModel.state.resources.batteryCapacity))",
-                        systemImage: "bolt.fill",
-                        accent: GridTheme.coinGold
-                    )
-                    MetricPill(
-                        title: "Credits",
-                        value: NumberFormatters.compact(viewModel.state.resources.credits),
-                        systemImage: "dollarsign.circle.fill",
-                        accent: GridTheme.buyGreen
-                    )
-                }
-                GridRow {
-                    MetricPill(
-                        title: "Income",
-                        value: "\(NumberFormatters.compact(viewModel.creditsPerSecond))/s",
-                        systemImage: "arrow.up.forward.circle.fill",
-                        accent: GridTheme.electric
-                    )
-                    MetricPill(
-                        title: "Fans",
-                        value: "\(viewModel.state.resources.populationServed)",
-                        systemImage: "person.2.fill",
-                        accent: GridTheme.violet
-                    )
-                }
+            HStack(spacing: 8) {
+                resourceToken(
+                    title: "Power",
+                    value: "\(NumberFormatters.compact(viewModel.state.resources.power))/\(NumberFormatters.compact(viewModel.state.resources.batteryCapacity))",
+                    icon: "bolt.fill",
+                    accent: GridTheme.coinGold
+                )
+                resourceToken(
+                    title: "Credits",
+                    value: NumberFormatters.compact(viewModel.state.resources.credits),
+                    icon: "dollarsign.circle.fill",
+                    accent: GridTheme.buyGreen
+                )
+            }
+
+            HStack(spacing: 8) {
+                resourceToken(
+                    title: "Profit",
+                    value: "\(NumberFormatters.compact(viewModel.creditsPerSecond))/s",
+                    icon: "arrow.up.forward.circle.fill",
+                    accent: GridTheme.electric
+                )
+                resourceToken(
+                    title: "Fans",
+                    value: "\(viewModel.state.resources.populationServed)",
+                    icon: "person.2.fill",
+                    accent: GridTheme.violet
+                )
             }
 
             StabilityBar(stability: viewModel.state.resources.stability)
@@ -119,6 +118,36 @@ struct CityView: View {
                         .stroke(Color.white.opacity(0.8), lineWidth: 2)
                 )
         }
+    }
+
+    private func resourceToken(title: String, value: String, icon: String, accent: Color) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.system(size: 18, weight: .black))
+                .foregroundStyle(Color.white)
+                .frame(width: 34, height: 34)
+                .background(accent, in: Circle())
+                .overlay(Circle().stroke(Color.white.opacity(0.9), lineWidth: 2))
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title.uppercased())
+                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .tracking(1)
+                    .foregroundStyle(GridTheme.secondaryText)
+                Text(value)
+                    .font(.system(size: 16, weight: .black, design: .rounded))
+                    .foregroundStyle(GridTheme.text)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.68)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 10)
+        .frame(maxWidth: .infinity)
+        .background(Color.white.opacity(0.94), in: Capsule())
+        .overlay(Capsule().stroke(accent.opacity(0.45), lineWidth: 3))
+        .shadow(color: Color(hex: 0x8A5A1F).opacity(0.16), radius: 7, y: 4)
     }
 
     private var generatorPanel: some View {

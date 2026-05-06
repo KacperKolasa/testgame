@@ -10,18 +10,8 @@ struct CityMapView: View {
                 let size = proxy.size
                 let time = timeline.date.timeIntervalSinceReferenceDate
                 let pulse = (sin(time * 2.4) + 1) / 2
-                let current = (sin(time * 4.8) + 1) / 2
 
                 ZStack {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [Color(hex: 0x8BE8FF), Color(hex: 0xB8F27D), Color(hex: 0xFFE17A)],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-
                     Image(GameArt.cityBackdrop)
                         .resizable()
                         .scaledToFill()
@@ -31,36 +21,16 @@ struct CityMapView: View {
                         .contrast(1.02)
                         .allowsHitTesting(false)
 
-                    Rectangle()
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.white.opacity(0.06), Color.clear, GridTheme.background.opacity(0.10)],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-                        .allowsHitTesting(false)
-
-                    roadLayer(size: size)
-                    powerLineLayer(size: size, pulse: current)
-
-                    GeneratorCore(pulse: pulse, current: current)
-                        .position(x: size.width * 0.50, y: size.height * 0.93)
-
-                    ForEach(DistrictCatalog.all) { definition in
-                        DistrictMapNode(
-                            definition: definition,
-                            state: state.districtState(for: definition.id),
-                            eventType: state.currentEvent?.type,
-                            pulse: pulse
-                        )
-                        .frame(width: nodeWidth(size: size, for: definition), height: nodeHeight(size: size, for: definition))
-                        .position(x: size.width * CGFloat(definition.mapPosition.x), y: size.height * CGFloat(definition.mapPosition.y))
-                    }
+                    LinearGradient(
+                        colors: [Color.clear, Color.clear, Color.black.opacity(0.16)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .allowsHitTesting(false)
 
                     VStack {
                         HStack {
-                            Text("CITY GRID")
+                            Text("RESTORE RUSH")
                                 .font(.system(size: 10, weight: .black, design: .rounded))
                                 .tracking(2)
                                 .foregroundStyle(Color.white)
@@ -77,10 +47,31 @@ struct CityMapView: View {
                                 .background(GridTheme.buyGreen, in: Capsule())
                         }
                         Spacer()
+                        HStack(spacing: 8) {
+                            ForEach(DistrictCatalog.all.prefix(5)) { definition in
+                                let district = state.districtState(for: definition.id)
+                                Image(GameArt.districtImageName(for: definition.id))
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 42, height: 42)
+                                    .padding(4)
+                                    .background(Color.white.opacity(0.86), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .stroke(district.isPowered ? GridTheme.buyGreen : Color.white, lineWidth: 2)
+                                    )
+                                    .opacity(district.isRestored ? 1 : 0.46)
+                                    .saturation(district.isRestored ? 1 : 0)
+                            }
+                            Spacer()
+                        }
                     }
                     .padding(12)
 
-                    scanlineLayer(offset: time)
+                    Circle()
+                        .stroke(Color.white.opacity(0.38 + pulse * 0.28), lineWidth: 5)
+                        .frame(width: 118, height: 118)
+                        .position(x: size.width * 0.50, y: size.height * 0.88)
 
                     if state.blackoutTimer > 0 {
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -95,7 +86,7 @@ struct CityMapView: View {
                 )
             }
         }
-        .frame(height: 430)
+        .frame(height: 360)
     }
 
     private func nodeWidth(size: CGSize, for definition: DistrictDefinition) -> CGFloat {
