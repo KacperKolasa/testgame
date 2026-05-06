@@ -10,17 +10,52 @@ extension Color {
 }
 
 enum GridTheme {
-    static let background = Color(hex: 0x07111D)
-    static let panel = Color(hex: 0x101C2A)
-    static let panelRaised = Color(hex: 0x162538)
-    static let line = Color.white.opacity(0.09)
-    static let text = Color(hex: 0xE8F0F7)
-    static let secondaryText = Color(hex: 0x94A9BE)
-    static let electric = Color(hex: 0x52B7E8)
-    static let electricSoft = Color(hex: 0x8FD3FF)
-    static let warm = Color(hex: 0xFFD66B)
-    static let danger = Color(hex: 0xF46D5E)
-    static let stable = Color(hex: 0x63D7A0)
+    static let background = Color(hex: 0x05070D)
+    static let void = Color(hex: 0x080B12)
+    static let panel = Color(hex: 0x111827)
+    static let panelRaised = Color(hex: 0x1A2435)
+    static let panelHot = Color(hex: 0x231B12)
+    static let line = Color.white.opacity(0.12)
+    static let text = Color(hex: 0xF3F7FB)
+    static let secondaryText = Color(hex: 0x8DA0B7)
+    static let electric = Color(hex: 0x3BC6FF)
+    static let electricSoft = Color(hex: 0x9BE7FF)
+    static let warm = Color(hex: 0xFFC342)
+    static let danger = Color(hex: 0xFF4F3D)
+    static let stable = Color(hex: 0x40E08A)
+    static let violet = Color(hex: 0x7A89FF)
+}
+
+enum GameArt {
+    static let cityBackdrop = "blackout_city_backdrop"
+    static let reactorCore = "reactor_core"
+    static let eventPowerSurge = "event_power_surge"
+    static let prestigeContract = "prestige_contract"
+
+    static func districtImageName(for id: DistrictID) -> String {
+        switch id {
+        case .residentialBlock:
+            return "district_residential_block"
+        case .hospital:
+            return "district_hospital"
+        case .factoryZone:
+            return "district_factory_zone"
+        case .nightMarket:
+            return "district_night_market"
+        case .transitHub:
+            return "district_transit_hub"
+        case .dataCenter:
+            return "district_data_center"
+        case .waterPlant:
+            return "district_water_plant"
+        case .downtownCore:
+            return "district_downtown_core"
+        case .solarFarm:
+            return "district_solar_farm"
+        case .batteryYard:
+            return "district_battery_yard"
+        }
+    }
 }
 
 struct MetricPill: View {
@@ -32,18 +67,27 @@ struct MetricPill: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: systemImage)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(accent)
-                .frame(width: 28, height: 28)
-                .background(accent.opacity(0.13), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .font(.system(size: 17, weight: .black))
+                .foregroundStyle(GridTheme.background)
+                .frame(width: 30, height: 30)
+                .background(
+                    LinearGradient(colors: [accent, accent.opacity(0.72)], startPoint: .top, endPoint: .bottom),
+                    in: RoundedRectangle(cornerRadius: 7, style: .continuous)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                        .stroke(Color.white.opacity(0.24), lineWidth: 1)
+                )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.caption2.weight(.medium))
+                    .font(.system(size: 9, weight: .black, design: .rounded))
+                    .tracking(0.8)
+                    .textCase(.uppercase)
                     .foregroundStyle(GridTheme.secondaryText)
                     .lineLimit(1)
                 Text(value)
-                    .font(.system(.subheadline, design: .rounded).weight(.bold))
+                    .font(.system(.subheadline, design: .rounded).weight(.black))
                     .foregroundStyle(GridTheme.text)
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
@@ -51,11 +95,19 @@ struct MetricPill: View {
             Spacer(minLength: 0)
         }
         .padding(10)
-        .background(GridTheme.panel.opacity(0.92), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .stroke(GridTheme.line, lineWidth: 1)
+        .background(
+            LinearGradient(
+                colors: [GridTheme.panelRaised.opacity(0.98), GridTheme.panel.opacity(0.96)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: 10, style: .continuous)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(Color.white.opacity(0.12), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.35), radius: 14, y: 8)
     }
 }
 
@@ -79,11 +131,13 @@ struct StabilityBar: View {
         VStack(alignment: .leading, spacing: 7) {
             HStack {
                 Label("Grid Stability", systemImage: "waveform.path.ecg")
-                    .font(.caption.weight(.semibold))
+                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .tracking(0.8)
+                    .textCase(.uppercase)
                     .foregroundStyle(GridTheme.secondaryText)
                 Spacer()
                 Text("\(Int(stability.rounded()))%")
-                    .font(.caption.monospacedDigit().weight(.bold))
+                    .font(.caption.monospacedDigit().weight(.black))
                     .foregroundStyle(barColor)
             }
 
@@ -106,9 +160,9 @@ struct StabilityBar: View {
             .frame(height: 10)
         }
         .padding(12)
-        .background(GridTheme.panel.opacity(0.92), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(GridTheme.panel.opacity(0.94), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(GridTheme.line, lineWidth: 1)
         )
     }
@@ -123,11 +177,13 @@ struct ProgressMeter: View {
         VStack(alignment: .leading, spacing: 7) {
             HStack {
                 Text(title)
-                    .font(.caption.weight(.semibold))
+                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .tracking(0.8)
+                    .textCase(.uppercase)
                     .foregroundStyle(GridTheme.secondaryText)
                 Spacer()
                 Text(NumberFormatters.percent(fraction))
-                    .font(.caption.monospacedDigit().weight(.bold))
+                    .font(.caption.monospacedDigit().weight(.black))
                     .foregroundStyle(GridTheme.text)
             }
             GeometryReader { proxy in
@@ -149,12 +205,32 @@ struct GridPrimaryButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.subheadline.weight(.bold))
+            .font(.system(.subheadline, design: .rounded).weight(.black))
             .foregroundStyle(GridTheme.background)
-            .padding(.vertical, 10)
+            .padding(.vertical, 12)
             .padding(.horizontal, 12)
             .frame(maxWidth: .infinity)
-            .background(accent.opacity(configuration.isPressed ? 0.72 : 1), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .background(
+                LinearGradient(
+                    colors: [
+                        accent.opacity(configuration.isPressed ? 0.74 : 1),
+                        accent.opacity(configuration.isPressed ? 0.58 : 0.78)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                ),
+                in: RoundedRectangle(cornerRadius: 10, style: .continuous)
+            )
+            .overlay(alignment: .top) {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .stroke(Color.white.opacity(configuration.isPressed ? 0.12 : 0.32), lineWidth: 1)
+                    .frame(height: 14)
+            }
+            .overlay(
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .stroke(Color.black.opacity(0.28), lineWidth: 1)
+            )
+            .shadow(color: accent.opacity(configuration.isPressed ? 0.12 : 0.28), radius: configuration.isPressed ? 6 : 16, y: configuration.isPressed ? 3 : 8)
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
             .animation(.spring(response: 0.22, dampingFraction: 0.72), value: configuration.isPressed)
     }
@@ -165,15 +241,22 @@ struct GridSecondaryButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.subheadline.weight(.semibold))
+            .font(.system(.subheadline, design: .rounded).weight(.black))
             .foregroundStyle(accent)
             .padding(.vertical, 10)
             .padding(.horizontal, 12)
             .frame(maxWidth: .infinity)
-            .background(accent.opacity(configuration.isPressed ? 0.16 : 0.10), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .background(
+                LinearGradient(
+                    colors: [accent.opacity(configuration.isPressed ? 0.18 : 0.12), GridTheme.panelRaised.opacity(0.9)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ),
+                in: RoundedRectangle(cornerRadius: 10, style: .continuous)
+            )
             .overlay(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .stroke(accent.opacity(0.25), lineWidth: 1)
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .stroke(accent.opacity(0.38), lineWidth: 1)
             )
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
             .animation(.spring(response: 0.22, dampingFraction: 0.72), value: configuration.isPressed)
@@ -202,9 +285,9 @@ struct EmptyStateView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(20)
-        .background(GridTheme.panel.opacity(0.86), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(GridTheme.panel.opacity(0.86), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(GridTheme.line, lineWidth: 1)
         )
     }
@@ -223,10 +306,68 @@ struct BannerView: View {
         }
         .foregroundStyle(GridTheme.text)
         .padding(10)
-        .background(GridTheme.panelRaised.opacity(0.96), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(GridTheme.panelRaised.opacity(0.96), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(GridTheme.electric.opacity(0.25), lineWidth: 1)
         )
+    }
+}
+
+struct GameScreenBackdrop: View {
+    var body: some View {
+        ZStack {
+            GridTheme.background.ignoresSafeArea()
+            LinearGradient(
+                colors: [Color(hex: 0x10131F).opacity(0.92), GridTheme.background, Color(hex: 0x130C08).opacity(0.72)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            Canvas { context, size in
+                let spacing: CGFloat = 28
+                var path = Path()
+                var x: CGFloat = 0
+                while x <= size.width {
+                    path.move(to: CGPoint(x: x, y: 0))
+                    path.addLine(to: CGPoint(x: x, y: size.height))
+                    x += spacing
+                }
+                var y: CGFloat = 0
+                while y <= size.height {
+                    path.move(to: CGPoint(x: 0, y: y))
+                    path.addLine(to: CGPoint(x: size.width, y: y))
+                    y += spacing
+                }
+                context.stroke(path, with: .color(GridTheme.electric.opacity(0.035)), lineWidth: 1)
+            }
+            .ignoresSafeArea()
+        }
+    }
+}
+
+struct CommandHeader: View {
+    let kicker: String
+    let title: String
+    let subtitle: String
+    var accent: Color = GridTheme.electric
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(kicker)
+                .font(.system(size: 10, weight: .black, design: .rounded))
+                .tracking(2)
+                .foregroundStyle(accent)
+            Text(title)
+                .font(.system(size: 30, weight: .black, design: .rounded))
+                .foregroundStyle(GridTheme.text)
+                .lineLimit(2)
+                .minimumScaleFactor(0.72)
+            Text(subtitle)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(GridTheme.secondaryText)
+                .lineLimit(3)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

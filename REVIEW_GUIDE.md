@@ -12,6 +12,7 @@
 - `TheGridBlackoutCity/Services/SaveService.swift`
 - `TheGridBlackoutCity/ViewModels/GameViewModel.swift`
 - `TheGridBlackoutCity/Views/CityMapView.swift`
+- `TheGridBlackoutCity/Assets/Generated/`
 - `TheGridBlackoutCityTests/`
 
 ## Architecture Summary

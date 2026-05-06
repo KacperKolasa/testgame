@@ -17,7 +17,7 @@ xcodebuild test -project TheGridBlackoutCity.xcodeproj -scheme TheGridBlackoutCi
 
 ## Project Overview
 
-The MVP is fully offline and uses no server, ads, in-app purchases, or external assets. Visuals are built with SwiftUI shapes, gradients, SF Symbols, Canvas drawing, and subtle animations.
+The MVP is fully offline and uses no server, ads, or in-app purchases. Visuals combine generated project-owned PNG assets with SwiftUI shapes, gradients, SF Symbols, Canvas drawing, and subtle animations.
 
 The city map is the emotional center of the game. District nodes begin as dark silhouettes, become outlined when restored, glow when powered, and show warning emphasis during relevant events. The generator button gives immediate power, floating gain feedback, haptics, and optional system sounds.
 
@@ -27,7 +27,8 @@ The city map is the emotional center of the game. District nodes begin as dark s
 - `Engine/` contains deterministic gameplay rules for economy, events, offline progress, prestige, and player actions.
 - `Services/` contains save/load, haptics, and lightweight sound wrappers.
 - `ViewModels/` contains `GameViewModel`, the main `ObservableObject` that owns the timer loop and exposes player actions to SwiftUI.
-- `Views/` contains the tabbed UI, city map, districts, upgrades, events, prestige, settings, and reusable components.
+- `Views/` contains the custom game dock, city map, districts, upgrades, events, prestige, settings, and reusable components.
+- `Assets/Generated/` contains generated raster art for the city backdrop, reactor core, district tiles, event banner, and prestige banner.
 - `TheGridBlackoutCityTests/` covers economy calculations, save/load safety, offline earnings, event generation/actions, and district power behavior.
 
 SwiftUI views render state and send intent to `GameViewModel`. Gameplay calculations stay in engines so tests can exercise them without UI.

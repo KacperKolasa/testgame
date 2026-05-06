@@ -8,22 +8,43 @@ struct CityMapView: View {
         TimelineView(.animation) { timeline in
             GeometryReader { proxy in
                 let size = proxy.size
-                let pulse = (sin(timeline.date.timeIntervalSinceReferenceDate * 2.4) + 1) / 2
+                let time = timeline.date.timeIntervalSinceReferenceDate
+                let pulse = (sin(time * 2.4) + 1) / 2
+                let current = (sin(time * 4.8) + 1) / 2
 
                 ZStack {
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .fill(
                             LinearGradient(
-                                colors: [Color(hex: 0x081420), Color(hex: 0x0C1A29), Color(hex: 0x07111D)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
+                                colors: [Color(hex: 0x07101B), Color(hex: 0x0B1221), Color(hex: 0x090709)],
+                                startPoint: .top,
+                                endPoint: .bottom
                             )
                         )
 
-                    roadLayer(size: size)
-                    powerLineLayer(size: size, pulse: pulse)
+                    Image(GameArt.cityBackdrop)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: size.width, height: size.height)
+                        .opacity(0.68)
+                        .saturation(0.95)
+                        .contrast(1.08)
+                        .allowsHitTesting(false)
 
-                    GeneratorCore(pulse: pulse)
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [GridTheme.background.opacity(0.12), GridTheme.background.opacity(0.10), GridTheme.background.opacity(0.72)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .allowsHitTesting(false)
+
+                    roadLayer(size: size)
+                    powerLineLayer(size: size, pulse: current)
+
+                    GeneratorCore(pulse: pulse, current: current)
                         .position(x: size.width * 0.50, y: size.height * 0.93)
 
                     ForEach(DistrictCatalog.all) { definition in
@@ -36,6 +57,24 @@ struct CityMapView: View {
                         .frame(width: nodeWidth(size: size, for: definition), height: nodeHeight(size: size, for: definition))
                         .position(x: size.width * CGFloat(definition.mapPosition.x), y: size.height * CGFloat(definition.mapPosition.y))
                     }
+
+                    VStack {
+                        HStack {
+                            Text("CITY GRID")
+                                .font(.system(size: 10, weight: .black, design: .rounded))
+                                .tracking(2)
+                                .foregroundStyle(GridTheme.electricSoft)
+                            Spacer()
+                            Text("\(Int(state.resources.cityCompletion * 100))% ONLINE")
+                                .font(.system(size: 10, weight: .black, design: .rounded))
+                                .tracking(1.4)
+                                .foregroundStyle(GridTheme.warm)
+                        }
+                        Spacer()
+                    }
+                    .padding(12)
+
+                    scanlineLayer(offset: time)
 
                     if state.blackoutTimer > 0 {
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
@@ -50,7 +89,7 @@ struct CityMapView: View {
                 )
             }
         }
-        .frame(height: 330)
+        .frame(height: 390)
     }
 
     private func nodeWidth(size: CGSize, for definition: DistrictDefinition) -> CGFloat {
@@ -77,23 +116,62 @@ struct CityMapView: View {
 
     private func roadLayer(size: CGSize) -> some View {
         Canvas { context, canvasSize in
-            let roadColor = Color.white.opacity(0.08)
+            let roadColor = GridTheme.electric.opacity(0.08)
             var main = Path()
             main.move(to: CGPoint(x: canvasSize.width * 0.13, y: canvasSize.height * 0.51))
             main.addLine(to: CGPoint(x: canvasSize.width * 0.88, y: canvasSize.height * 0.51))
-            context.stroke(main, with: .color(roadColor), style: StrokeStyle(lineWidth: 8, lineCap: .round))
+            context.stroke(main, with: .color(roadColor), style: StrokeStyle(lineWidth: 10, lineCap: .round))
 
             var vertical = Path()
             vertical.move(to: CGPoint(x: canvasSize.width * 0.52, y: canvasSize.height * 0.16))
             vertical.addLine(to: CGPoint(x: canvasSize.width * 0.52, y: canvasSize.height * 0.91))
-            context.stroke(vertical, with: .color(roadColor), style: StrokeStyle(lineWidth: 7, lineCap: .round))
+            context.stroke(vertical, with: .color(roadColor), style: StrokeStyle(lineWidth: 9, lineCap: .round))
 
             var diagonal = Path()
             diagonal.move(to: CGPoint(x: canvasSize.width * 0.20, y: canvasSize.height * 0.82))
             diagonal.addLine(to: CGPoint(x: canvasSize.width * 0.82, y: canvasSize.height * 0.20))
-            context.stroke(diagonal, with: .color(Color.white.opacity(0.045)), style: StrokeStyle(lineWidth: 5, lineCap: .round, dash: [8, 9]))
+            context.stroke(diagonal, with: .color(GridTheme.warm.opacity(0.07)), style: StrokeStyle(lineWidth: 5, lineCap: .round, dash: [8, 9]))
         }
         .allowsHitTesting(false)
+    }
+
+    private func skylineLayer(size: CGSize, pulse: Double) -> some View {
+        Canvas { context, canvasSize in
+            let heights: [CGFloat] = [0.18, 0.11, 0.24, 0.14, 0.31, 0.21, 0.12, 0.27, 0.17, 0.23, 0.15, 0.29]
+            let width = canvasSize.width / CGFloat(heights.count)
+            for index in heights.indices {
+                let h = canvasSize.height * heights[index]
+                let rect = CGRect(
+                    x: CGFloat(index) * width,
+                    y: canvasSize.height * 0.72 - h,
+                    width: width * 0.82,
+                    height: h
+                )
+                context.fill(Path(roundedRect: rect, cornerRadius: 2), with: .color(Color(hex: 0x070A10).opacity(0.92)))
+                if index % 3 == 0 {
+                    let light = CGRect(x: rect.midX - 2, y: rect.minY + 12, width: 4, height: 5)
+                    context.fill(Path(roundedRect: light, cornerRadius: 1), with: .color(GridTheme.warm.opacity(0.18 + pulse * 0.16)))
+                }
+            }
+        }
+        .allowsHitTesting(false)
+    }
+
+    private func scanlineLayer(offset: TimeInterval) -> some View {
+        GeometryReader { proxy in
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        colors: [Color.clear, GridTheme.electric.opacity(0.10), Color.clear],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(height: 46)
+                .offset(y: CGFloat(Int(offset * 26) % max(1, Int(proxy.size.height + 46))) - 46)
+                .allowsHitTesting(false)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 
     private func powerLineLayer(size: CGSize, pulse: Double) -> some View {
@@ -125,19 +203,22 @@ struct CityMapView: View {
 
 private struct GeneratorCore: View {
     let pulse: Double
+    let current: Double
 
     var body: some View {
         ZStack {
+            Image(GameArt.reactorCore)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 116, height: 116)
+                .shadow(color: GridTheme.electric.opacity(0.34 + pulse * 0.18), radius: 18, y: 4)
             Circle()
-                .fill(GridTheme.electric.opacity(0.08 + pulse * 0.08))
-                .frame(width: 84, height: 84)
-            Circle()
-                .stroke(GridTheme.electric.opacity(0.35), lineWidth: 2)
-                .frame(width: 62, height: 62)
+                .stroke(GridTheme.electric.opacity(0.42), style: StrokeStyle(lineWidth: 3, dash: [9, 7]))
+                .frame(width: 90, height: 90)
+                .rotationEffect(.degrees(current * 360))
             Image(systemName: "bolt.fill")
-                .font(.system(size: 28, weight: .black))
-                .foregroundStyle(GridTheme.warm)
-                .shadow(color: GridTheme.warm.opacity(0.45), radius: 8, y: 2)
+                .font(.system(size: 25, weight: .black))
+                .foregroundStyle(GridTheme.background)
         }
     }
 }
@@ -167,24 +248,34 @@ private struct DistrictMapNode: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 7, style: .continuous)
+            SlabShape()
                 .fill(fill)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 7, style: .continuous)
+                    SlabShape()
                         .stroke(stroke, lineWidth: isEventDistrict ? 2 : 1)
                 )
-                .shadow(color: shadow, radius: state.isPowered ? 9 : 0)
+                .shadow(color: shadow, radius: state.isPowered ? 13 : 0)
 
-            buildingWindows
+            Image(GameArt.districtImageName(for: definition.id))
+                .resizable()
+                .scaledToFit()
+                .padding(2)
+                .opacity(state.isRestored ? (state.isPowered ? 1 : 0.38) : 0.16)
+                .saturation(state.isRestored ? 1 : 0)
+                .brightness(state.isPowered ? 0.05 : -0.20)
+                .contrast(state.isPowered ? 1.08 : 0.82)
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
 
             VStack {
                 Spacer()
                 Text(abbreviation)
                     .font(.system(size: 9, weight: .black, design: .rounded))
-                    .foregroundStyle(state.isRestored ? GridTheme.text.opacity(0.86) : GridTheme.secondaryText.opacity(0.45))
+                    .foregroundStyle(state.isRestored ? GridTheme.background : GridTheme.secondaryText.opacity(0.55))
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
                     .padding(.horizontal, 3)
+                    .padding(.vertical, 2)
+                    .background(state.isPowered ? GridTheme.warm.opacity(0.92) : Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 4, style: .continuous))
                     .padding(.bottom, 4)
             }
         }
@@ -194,12 +285,12 @@ private struct DistrictMapNode: View {
 
     private var fill: Color {
         if !state.isRestored {
-            return Color(hex: 0x0C1420)
+            return Color(hex: 0x090D14)
         }
         if state.isPowered {
-            return isEventDistrict ? GridTheme.danger.opacity(0.26 + pulse * 0.16) : GridTheme.electric.opacity(0.18 + pulse * 0.08)
+            return isEventDistrict ? GridTheme.danger.opacity(0.40 + pulse * 0.18) : GridTheme.electric.opacity(0.30 + pulse * 0.10)
         }
-        return GridTheme.panelRaised.opacity(0.58)
+        return GridTheme.panelRaised.opacity(0.68)
     }
 
     private var stroke: Color {
@@ -239,7 +330,21 @@ private struct DistrictMapNode: View {
                 }
             }
         }
-        .padding(.bottom, 9)
+        .padding(.bottom, 14)
+    }
+
+    private var buildingSilhouette: some View {
+        HStack(alignment: .bottom, spacing: 3) {
+            ForEach(0..<4, id: \.self) { index in
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(state.isRestored ? Color(hex: 0x111A28) : Color(hex: 0x06080C))
+                    .frame(width: index == 1 ? 11 : 9, height: CGFloat([18, 30, 23, 15][index]))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 2, style: .continuous)
+                            .stroke(Color.white.opacity(state.isRestored ? 0.08 : 0.03), lineWidth: 1)
+                    )
+            }
+        }
     }
 
     private func windowColor(row: Int, column: Int) -> Color {
@@ -252,5 +357,19 @@ private struct DistrictMapNode: View {
 
         let alternating = (row + column + definition.id.rawValue.count) % 3 == 0
         return alternating ? GridTheme.warm.opacity(0.82 + pulse * 0.15) : GridTheme.electricSoft.opacity(0.55 + pulse * 0.12)
+    }
+}
+
+private struct SlabShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX + rect.width * 0.10, y: rect.minY + rect.height * 0.18))
+        path.addLine(to: CGPoint(x: rect.maxX - rect.width * 0.10, y: rect.minY + rect.height * 0.18))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + rect.height * 0.55))
+        path.addLine(to: CGPoint(x: rect.maxX - rect.width * 0.18, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX + rect.width * 0.18, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + rect.height * 0.55))
+        path.closeSubpath()
+        return path
     }
 }

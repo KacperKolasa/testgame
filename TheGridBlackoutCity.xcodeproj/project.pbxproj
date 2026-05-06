@@ -35,6 +35,21 @@
 		300000000000000000000026 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000026 /* EventsView.swift */; };
 		300000000000000000000027 /* PrestigeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000027 /* PrestigeView.swift */; };
 		300000000000000000000028 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000028 /* SettingsView.swift */; };
+		300000000000000000000201 /* blackout_city_backdrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000201 /* blackout_city_backdrop.png */; };
+		300000000000000000000202 /* reactor_core.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000202 /* reactor_core.png */; };
+		300000000000000000000203 /* district_spritesheet.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000203 /* district_spritesheet.png */; };
+		300000000000000000000204 /* event_power_surge.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000204 /* event_power_surge.png */; };
+		300000000000000000000205 /* prestige_contract.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000205 /* prestige_contract.png */; };
+		300000000000000000000206 /* district_residential_block.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000206 /* district_residential_block.png */; };
+		300000000000000000000207 /* district_hospital.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000207 /* district_hospital.png */; };
+		300000000000000000000208 /* district_factory_zone.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000208 /* district_factory_zone.png */; };
+		300000000000000000000209 /* district_night_market.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000209 /* district_night_market.png */; };
+		300000000000000000000210 /* district_transit_hub.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000210 /* district_transit_hub.png */; };
+		300000000000000000000211 /* district_data_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000211 /* district_data_center.png */; };
+		300000000000000000000212 /* district_water_plant.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000212 /* district_water_plant.png */; };
+		300000000000000000000213 /* district_downtown_core.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000213 /* district_downtown_core.png */; };
+		300000000000000000000214 /* district_solar_farm.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000214 /* district_solar_farm.png */; };
+		300000000000000000000215 /* district_battery_yard.png in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000215 /* district_battery_yard.png */; };
 		300000000000000000000101 /* EconomyEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000101 /* EconomyEngineTests.swift */; };
 		300000000000000000000102 /* SaveServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000102 /* SaveServiceTests.swift */; };
 		300000000000000000000103 /* OfflineProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000103 /* OfflineProgressTests.swift */; };
@@ -84,6 +99,21 @@
 		200000000000000000000027 /* PrestigeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestigeView.swift; sourceTree = "<group>"; };
 		200000000000000000000028 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		200000000000000000000029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		200000000000000000000201 /* blackout_city_backdrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackout_city_backdrop.png; sourceTree = "<group>"; };
+		200000000000000000000202 /* reactor_core.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reactor_core.png; sourceTree = "<group>"; };
+		200000000000000000000203 /* district_spritesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_spritesheet.png; sourceTree = "<group>"; };
+		200000000000000000000204 /* event_power_surge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = event_power_surge.png; sourceTree = "<group>"; };
+		200000000000000000000205 /* prestige_contract.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prestige_contract.png; sourceTree = "<group>"; };
+		200000000000000000000206 /* district_residential_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_residential_block.png; sourceTree = "<group>"; };
+		200000000000000000000207 /* district_hospital.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_hospital.png; sourceTree = "<group>"; };
+		200000000000000000000208 /* district_factory_zone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_factory_zone.png; sourceTree = "<group>"; };
+		200000000000000000000209 /* district_night_market.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_night_market.png; sourceTree = "<group>"; };
+		200000000000000000000210 /* district_transit_hub.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_transit_hub.png; sourceTree = "<group>"; };
+		200000000000000000000211 /* district_data_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_data_center.png; sourceTree = "<group>"; };
+		200000000000000000000212 /* district_water_plant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_water_plant.png; sourceTree = "<group>"; };
+		200000000000000000000213 /* district_downtown_core.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_downtown_core.png; sourceTree = "<group>"; };
+		200000000000000000000214 /* district_solar_farm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_solar_farm.png; sourceTree = "<group>"; };
+		200000000000000000000215 /* district_battery_yard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = district_battery_yard.png; sourceTree = "<group>"; };
 		200000000000000000000101 /* EconomyEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EconomyEngineTests.swift; sourceTree = "<group>"; };
 		200000000000000000000102 /* SaveServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveServiceTests.swift; sourceTree = "<group>"; };
 		200000000000000000000103 /* OfflineProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineProgressTests.swift; sourceTree = "<group>"; };
@@ -136,6 +166,7 @@
 				100000000000000000000014 /* Services */,
 				100000000000000000000015 /* ViewModels */,
 				100000000000000000000016 /* Views */,
+				100000000000000000000019 /* Assets */,
 				200000000000000000000029 /* Info.plist */,
 			);
 			path = TheGridBlackoutCity;
@@ -231,6 +262,36 @@
 			path = TheGridBlackoutCityTests;
 			sourceTree = "<group>";
 		};
+		100000000000000000000019 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000031 /* Generated */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		100000000000000000000031 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000201 /* blackout_city_backdrop.png */,
+				200000000000000000000202 /* reactor_core.png */,
+				200000000000000000000203 /* district_spritesheet.png */,
+				200000000000000000000204 /* event_power_surge.png */,
+				200000000000000000000205 /* prestige_contract.png */,
+				200000000000000000000206 /* district_residential_block.png */,
+				200000000000000000000207 /* district_hospital.png */,
+				200000000000000000000208 /* district_factory_zone.png */,
+				200000000000000000000209 /* district_night_market.png */,
+				200000000000000000000210 /* district_transit_hub.png */,
+				200000000000000000000211 /* district_data_center.png */,
+				200000000000000000000212 /* district_water_plant.png */,
+				200000000000000000000213 /* district_downtown_core.png */,
+				200000000000000000000214 /* district_solar_farm.png */,
+				200000000000000000000215 /* district_battery_yard.png */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -312,6 +373,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				300000000000000000000201 /* blackout_city_backdrop.png in Resources */,
+				300000000000000000000202 /* reactor_core.png in Resources */,
+				300000000000000000000203 /* district_spritesheet.png in Resources */,
+				300000000000000000000204 /* event_power_surge.png in Resources */,
+				300000000000000000000205 /* prestige_contract.png in Resources */,
+				300000000000000000000206 /* district_residential_block.png in Resources */,
+				300000000000000000000207 /* district_hospital.png in Resources */,
+				300000000000000000000208 /* district_factory_zone.png in Resources */,
+				300000000000000000000209 /* district_night_market.png in Resources */,
+				300000000000000000000210 /* district_transit_hub.png in Resources */,
+				300000000000000000000211 /* district_data_center.png in Resources */,
+				300000000000000000000212 /* district_water_plant.png in Resources */,
+				300000000000000000000213 /* district_downtown_core.png in Resources */,
+				300000000000000000000214 /* district_solar_farm.png in Resources */,
+				300000000000000000000215 /* district_battery_yard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

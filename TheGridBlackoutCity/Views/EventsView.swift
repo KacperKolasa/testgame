@@ -5,9 +5,16 @@ struct EventsView: View {
 
     var body: some View {
         ZStack {
-            GridTheme.background.ignoresSafeArea()
+            GameScreenBackdrop()
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    CommandHeader(
+                        kicker: "CITY INCIDENTS",
+                        title: "Emergencies are missions.",
+                        subtitle: "Fast reactions earn credits, population, and stability. Ignored alerts push the city back toward blackout.",
+                        accent: GridTheme.danger
+                    )
+
                     if viewModel.state.currentEvent != nil {
                         EventCardView()
                     } else {
@@ -45,10 +52,12 @@ struct EventsView: View {
                     }
                 }
                 .padding(16)
+                .padding(.bottom, 96)
             }
         }
-        .navigationTitle("Events")
+        .navigationTitle("Alerts")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 

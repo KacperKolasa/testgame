@@ -6,18 +6,27 @@ struct PrestigeView: View {
 
     var body: some View {
         ZStack {
-            GridTheme.background.ignoresSafeArea()
+            GameScreenBackdrop()
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    CommandHeader(
+                        kicker: "REBUILD CONTRACT",
+                        title: "Finish one city. Wake another.",
+                        subtitle: "Prestige into tougher contracts and spend Grid Tokens on permanent command upgrades.",
+                        accent: GridTheme.warm
+                    )
+
                     contractPanel
                     modifierPanel
                     permanentUpgradePanel
                 }
                 .padding(16)
+                .padding(.bottom, 96)
             }
         }
-        .navigationTitle("Rebuild Contract")
+        .navigationTitle("Rebuild")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .navigationBar)
         .confirmationDialog("Accept Rebuild Contract?", isPresented: $showPrestigeConfirmation, titleVisibility: .visible) {
             Button("Accept Contract", role: .destructive) {
                 viewModel.acceptRebuildContract()
@@ -30,6 +39,20 @@ struct PrestigeView: View {
 
     private var contractPanel: some View {
         VStack(alignment: .leading, spacing: 14) {
+            Image(GameArt.prestigeContract)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 138)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .overlay(
+                    LinearGradient(
+                        colors: [Color.clear, GridTheme.background.opacity(0.52)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                )
+
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("City Completion")

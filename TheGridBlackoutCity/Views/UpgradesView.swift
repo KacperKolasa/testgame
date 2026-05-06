@@ -9,9 +9,16 @@ struct UpgradesView: View {
 
     var body: some View {
         ZStack {
-            GridTheme.background.ignoresSafeArea()
+            GameScreenBackdrop()
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
+                    CommandHeader(
+                        kicker: "TECH TREE",
+                        title: "Build a sharper grid.",
+                        subtitle: "Choose between raw generation, safer reserves, smarter routing, and idle automation.",
+                        accent: GridTheme.warm
+                    )
+
                     Picker("Category", selection: $viewModel.selectedUpgradeCategory) {
                         ForEach(UpgradeCategory.allCases) { category in
                             Text(category.rawValue).tag(category)
@@ -24,10 +31,12 @@ struct UpgradesView: View {
                     }
                 }
                 .padding(16)
+                .padding(.bottom, 96)
             }
         }
-        .navigationTitle("Upgrades")
+        .navigationTitle("Tech")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -58,7 +67,7 @@ private struct UpgradeCard: View {
                             .font(.headline.weight(.bold))
                             .foregroundStyle(GridTheme.text)
                         Spacer()
-                        Text("Lv \(level)/\(upgrade.maxLevel)")
+                        Text("LV \(level)/\(upgrade.maxLevel)")
                             .font(.caption.monospacedDigit().weight(.bold))
                             .foregroundStyle(level >= upgrade.maxLevel ? GridTheme.stable : GridTheme.secondaryText)
                     }
@@ -85,9 +94,9 @@ private struct UpgradeCard: View {
             .disabled(!canAfford || level >= upgrade.maxLevel)
         }
         .padding(14)
-        .background(GridTheme.panel.opacity(0.94), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(GridTheme.panel.opacity(0.94), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(GridTheme.line, lineWidth: 1)
         )
     }

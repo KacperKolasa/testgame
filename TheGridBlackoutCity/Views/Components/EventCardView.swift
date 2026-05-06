@@ -7,19 +7,54 @@ struct EventCardView: View {
         if let event = viewModel.state.currentEvent {
             let definition = EventCatalog.definition(for: event.type)
             VStack(alignment: .leading, spacing: 12) {
+                Image(GameArt.eventPowerSurge)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 112)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .overlay(
+                        LinearGradient(
+                            colors: [Color.clear, Color.black.opacity(0.42)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    )
+
+                HStack {
+                    Text("MISSION ALERT")
+                        .font(.system(size: 10, weight: .black, design: .rounded))
+                        .tracking(2)
+                        .foregroundStyle(GridTheme.danger)
+                    Spacer()
+                    Text("T-\(Int(event.remaining.rounded(.up)))")
+                        .font(.caption.monospacedDigit().weight(.black))
+                        .foregroundStyle(GridTheme.warm)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(Color.black.opacity(0.30), in: Capsule())
+                }
+
                 HStack(alignment: .top, spacing: 12) {
                     Image(systemName: definition.systemImage)
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(GridTheme.danger)
-                        .frame(width: 42, height: 42)
-                        .background(GridTheme.danger.opacity(0.12), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .foregroundStyle(GridTheme.background)
+                        .frame(width: 46, height: 46)
+                        .background(
+                            LinearGradient(colors: [GridTheme.danger, GridTheme.warm], startPoint: .topLeading, endPoint: .bottomTrailing),
+                            in: RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .stroke(Color.white.opacity(0.26), lineWidth: 1)
+                        )
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text(definition.title)
-                            .font(.headline.weight(.bold))
+                            .font(.system(.title3, design: .rounded).weight(.black))
                             .foregroundStyle(GridTheme.text)
                         Text(definition.description)
-                            .font(.subheadline)
+                            .font(.subheadline.weight(.semibold))
                             .foregroundStyle(GridTheme.secondaryText)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -29,7 +64,7 @@ struct EventCardView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("Time")
+                        Text("Timer")
                         Spacer()
                         Text("\(Int(event.remaining.rounded(.up)))s")
                     }
@@ -66,16 +101,17 @@ struct EventCardView: View {
             .padding(14)
             .background(
                 LinearGradient(
-                    colors: [GridTheme.panelRaised.opacity(0.98), Color(hex: 0x1C1825).opacity(0.98)],
+                    colors: [Color(hex: 0x2A1110).opacity(0.98), GridTheme.panelRaised.opacity(0.98), Color(hex: 0x111827).opacity(0.98)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
-                in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+                in: RoundedRectangle(cornerRadius: 12, style: .continuous)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .stroke(GridTheme.danger.opacity(0.35), lineWidth: 1)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(GridTheme.danger.opacity(0.45), lineWidth: 1)
             )
+            .shadow(color: GridTheme.danger.opacity(0.20), radius: 18, y: 10)
         }
     }
 

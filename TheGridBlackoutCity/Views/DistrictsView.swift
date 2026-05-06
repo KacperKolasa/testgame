@@ -5,23 +5,27 @@ struct DistrictsView: View {
 
     var body: some View {
         ZStack {
-            GridTheme.background.ignoresSafeArea()
+            GameScreenBackdrop()
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
-                    Text("Restore districts, tune their demand, and decide what stays powered.")
-                        .font(.subheadline)
-                        .foregroundStyle(GridTheme.secondaryText)
-                        .padding(.horizontal, 2)
+                    CommandHeader(
+                        kicker: "ZONE CONTROL",
+                        title: "Light the city block by block.",
+                        subtitle: "Restore districts, level them up, and decide which zones deserve live power.",
+                        accent: GridTheme.electric
+                    )
 
                     ForEach(DistrictCatalog.all) { definition in
                         DistrictCard(definition: definition)
                     }
                 }
                 .padding(16)
+                .padding(.bottom, 96)
             }
         }
-        .navigationTitle("Districts")
+        .navigationTitle("Zones")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -35,6 +39,34 @@ private struct DistrictCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            ZStack(alignment: .bottomLeading) {
+                Image(GameArt.districtImageName(for: definition.id))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 132)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .opacity(district.isRestored ? 1 : 0.36)
+                    .saturation(district.isRestored ? 1 : 0)
+                    .brightness(district.isPowered ? 0.04 : -0.16)
+
+                LinearGradient(
+                    colors: [Color.clear, GridTheme.background.opacity(0.78)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+
+                Text(district.isRestored ? (district.isPowered ? "POWERED" : "RESTORED") : "BLACKOUT")
+                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .tracking(1.4)
+                    .foregroundStyle(district.isPowered ? GridTheme.background : GridTheme.text)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 8)
+                    .background(district.isPowered ? GridTheme.warm : Color.black.opacity(0.52), in: Capsule())
+                    .padding(10)
+            }
+
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: icon)
                     .font(.system(size: 22, weight: .semibold))
@@ -48,7 +80,7 @@ private struct DistrictCard: View {
                             .font(.headline.weight(.bold))
                             .foregroundStyle(GridTheme.text)
                         Spacer()
-                        Text(definition.category.rawValue)
+                        Text(definition.category.rawValue.uppercased())
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(GridTheme.secondaryText)
                             .padding(.vertical, 4)
@@ -81,7 +113,7 @@ private struct DistrictCard: View {
         .padding(14)
         .background(GridTheme.panel.opacity(0.94), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .stroke(district.isPowered ? GridTheme.electric.opacity(0.32) : GridTheme.line, lineWidth: 1)
         )
     }
