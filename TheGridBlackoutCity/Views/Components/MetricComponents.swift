@@ -10,20 +10,22 @@ extension Color {
 }
 
 enum GridTheme {
-    static let background = Color(hex: 0x05070D)
-    static let void = Color(hex: 0x080B12)
-    static let panel = Color(hex: 0x111827)
-    static let panelRaised = Color(hex: 0x1A2435)
-    static let panelHot = Color(hex: 0x231B12)
-    static let line = Color.white.opacity(0.12)
-    static let text = Color(hex: 0xF3F7FB)
-    static let secondaryText = Color(hex: 0x8DA0B7)
-    static let electric = Color(hex: 0x3BC6FF)
-    static let electricSoft = Color(hex: 0x9BE7FF)
-    static let warm = Color(hex: 0xFFC342)
-    static let danger = Color(hex: 0xFF4F3D)
-    static let stable = Color(hex: 0x40E08A)
-    static let violet = Color(hex: 0x7A89FF)
+    static let background = Color(hex: 0x77D8FF)
+    static let void = Color(hex: 0x2C77C8)
+    static let panel = Color(hex: 0xFFF4CF)
+    static let panelRaised = Color(hex: 0xFFFFFF)
+    static let panelHot = Color(hex: 0xFFE08A)
+    static let line = Color(hex: 0x7A4D16).opacity(0.22)
+    static let text = Color(hex: 0x39270F)
+    static let secondaryText = Color(hex: 0x7B643A)
+    static let electric = Color(hex: 0x18A7F2)
+    static let electricSoft = Color(hex: 0x82E7FF)
+    static let warm = Color(hex: 0xFFC72C)
+    static let danger = Color(hex: 0xF04B3D)
+    static let stable = Color(hex: 0x22C95D)
+    static let violet = Color(hex: 0x8E61FF)
+    static let buyGreen = Color(hex: 0x33D15F)
+    static let coinGold = Color(hex: 0xFFB629)
 }
 
 enum GameArt {
@@ -68,7 +70,7 @@ struct MetricPill: View {
         HStack(spacing: 10) {
             Image(systemName: systemImage)
                 .font(.system(size: 17, weight: .black))
-                .foregroundStyle(GridTheme.background)
+                .foregroundStyle(Color.white)
                 .frame(width: 30, height: 30)
                 .background(
                     LinearGradient(colors: [accent, accent.opacity(0.72)], startPoint: .top, endPoint: .bottom),
@@ -97,7 +99,7 @@ struct MetricPill: View {
         .padding(10)
         .background(
             LinearGradient(
-                colors: [GridTheme.panelRaised.opacity(0.98), GridTheme.panel.opacity(0.96)],
+                colors: [GridTheme.panelRaised.opacity(1), GridTheme.panel.opacity(1)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             ),
@@ -105,9 +107,9 @@ struct MetricPill: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .stroke(Color.white.opacity(0.12), lineWidth: 1)
+                .stroke(Color.white.opacity(0.75), lineWidth: 2)
         )
-        .shadow(color: Color.black.opacity(0.35), radius: 14, y: 8)
+        .shadow(color: Color(hex: 0x8A5A1F).opacity(0.22), radius: 10, y: 5)
     }
 }
 
@@ -160,10 +162,10 @@ struct StabilityBar: View {
             .frame(height: 10)
         }
         .padding(12)
-        .background(GridTheme.panel.opacity(0.94), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .background(GridTheme.panelRaised.opacity(0.98), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .stroke(GridTheme.line, lineWidth: 1)
+                .stroke(Color.white.opacity(0.75), lineWidth: 2)
         )
     }
 }
@@ -206,7 +208,7 @@ struct GridPrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(.subheadline, design: .rounded).weight(.black))
-            .foregroundStyle(GridTheme.background)
+            .foregroundStyle(Color.white)
             .padding(.vertical, 12)
             .padding(.horizontal, 12)
             .frame(maxWidth: .infinity)
@@ -214,7 +216,7 @@ struct GridPrimaryButtonStyle: ButtonStyle {
                 LinearGradient(
                     colors: [
                         accent.opacity(configuration.isPressed ? 0.74 : 1),
-                        accent.opacity(configuration.isPressed ? 0.58 : 0.78)
+                        accent.opacity(configuration.isPressed ? 0.62 : 0.86)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -228,9 +230,9 @@ struct GridPrimaryButtonStyle: ButtonStyle {
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .stroke(Color.black.opacity(0.28), lineWidth: 1)
+                    .stroke(Color(hex: 0x6E3D0C).opacity(0.28), lineWidth: 2)
             )
-            .shadow(color: accent.opacity(configuration.isPressed ? 0.12 : 0.28), radius: configuration.isPressed ? 6 : 16, y: configuration.isPressed ? 3 : 8)
+            .shadow(color: Color(hex: 0x8A5A1F).opacity(configuration.isPressed ? 0.12 : 0.30), radius: configuration.isPressed ? 6 : 12, y: configuration.isPressed ? 3 : 7)
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
             .animation(.spring(response: 0.22, dampingFraction: 0.72), value: configuration.isPressed)
     }
@@ -248,7 +250,7 @@ struct GridSecondaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .background(
                 LinearGradient(
-                    colors: [accent.opacity(configuration.isPressed ? 0.18 : 0.12), GridTheme.panelRaised.opacity(0.9)],
+                    colors: [GridTheme.panelRaised.opacity(1), GridTheme.panel.opacity(1)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
@@ -317,9 +319,24 @@ struct BannerView: View {
 struct GameScreenBackdrop: View {
     var body: some View {
         ZStack {
-            GridTheme.background.ignoresSafeArea()
             LinearGradient(
-                colors: [Color(hex: 0x10131F).opacity(0.92), GridTheme.background, Color(hex: 0x130C08).opacity(0.72)],
+                colors: [Color(hex: 0x7BE0FF), Color(hex: 0xA7F08A), Color(hex: 0xFFE48A)],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            Circle()
+                .fill(Color.white.opacity(0.28))
+                .frame(width: 190, height: 190)
+                .offset(x: -130, y: -260)
+                .blur(radius: 3)
+            Circle()
+                .fill(GridTheme.warm.opacity(0.32))
+                .frame(width: 260, height: 260)
+                .offset(x: 170, y: -160)
+                .blur(radius: 18)
+            LinearGradient(
+                colors: [Color.white.opacity(0.16), Color.clear, Color(hex: 0x66BC52).opacity(0.24)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -339,7 +356,7 @@ struct GameScreenBackdrop: View {
                     path.addLine(to: CGPoint(x: size.width, y: y))
                     y += spacing
                 }
-                context.stroke(path, with: .color(GridTheme.electric.opacity(0.035)), lineWidth: 1)
+                context.stroke(path, with: .color(Color.white.opacity(0.16)), lineWidth: 1)
             }
             .ignoresSafeArea()
         }
@@ -357,9 +374,12 @@ struct CommandHeader: View {
             Text(kicker)
                 .font(.system(size: 10, weight: .black, design: .rounded))
                 .tracking(2)
-                .foregroundStyle(accent)
+                .foregroundStyle(Color.white)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 8)
+                .background(accent, in: Capsule())
             Text(title)
-                .font(.system(size: 30, weight: .black, design: .rounded))
+                .font(.system(size: 32, weight: .black, design: .rounded))
                 .foregroundStyle(GridTheme.text)
                 .lineLimit(2)
                 .minimumScaleFactor(0.72)

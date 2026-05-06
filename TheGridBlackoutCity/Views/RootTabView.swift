@@ -117,7 +117,7 @@ private struct CommandDock: View {
                             .lineLimit(1)
                             .minimumScaleFactor(0.7)
                     }
-                    .foregroundStyle(selectedScreen == screen ? GridTheme.background : GridTheme.secondaryText)
+                    .foregroundStyle(selectedScreen == screen ? Color.white : GridTheme.secondaryText)
                     .frame(maxWidth: .infinity)
                     .frame(height: 52)
                     .background(
@@ -126,7 +126,7 @@ private struct CommandDock: View {
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 11, style: .continuous)
-                            .stroke(selectedScreen == screen ? Color.white.opacity(0.28) : GridTheme.line, lineWidth: 1)
+                            .stroke(selectedScreen == screen ? Color.white.opacity(0.72) : GridTheme.line, lineWidth: 2)
                     )
                 }
                 .buttonStyle(.plain)
@@ -136,16 +136,16 @@ private struct CommandDock: View {
         .padding(.top, 8)
         .padding(.bottom, 8)
         .background(
-            LinearGradient(colors: [GridTheme.background.opacity(0), GridTheme.background.opacity(0.94)], startPoint: .top, endPoint: .bottom)
+            LinearGradient(colors: [GridTheme.background.opacity(0), Color(hex: 0x59BD55).opacity(0.94)], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
         )
     }
 
     private func tabFill(isSelected: Bool) -> AnyShapeStyle {
         if isSelected {
-            return AnyShapeStyle(LinearGradient(colors: [GridTheme.warm, GridTheme.electric], startPoint: .topLeading, endPoint: .bottomTrailing))
+            return AnyShapeStyle(LinearGradient(colors: [GridTheme.coinGold, GridTheme.buyGreen], startPoint: .topLeading, endPoint: .bottomTrailing))
         }
-        return AnyShapeStyle(LinearGradient(colors: [GridTheme.panelRaised.opacity(0.95), GridTheme.panel.opacity(0.95)], startPoint: .top, endPoint: .bottom))
+        return AnyShapeStyle(LinearGradient(colors: [GridTheme.panelRaised.opacity(1), GridTheme.panel.opacity(1)], startPoint: .top, endPoint: .bottom))
     }
 }
 

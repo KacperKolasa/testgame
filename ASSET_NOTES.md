@@ -6,10 +6,12 @@ The game now includes raster assets generated for this project and copied into:
 
 `TheGridBlackoutCity/Assets/Generated`
 
+The latest pass intentionally uses a brighter casual idle-tycoon direction: chunky cartoon forms, gold/green rewards, bold outlines, colorful restored districts, and shop-like production readability.
+
 ## Files
 
-- `blackout_city_backdrop.png`: portrait city restoration background used behind the live map.
-- `reactor_core.png`: tappable reactor core art used on the City screen and map.
+- `blackout_city_backdrop.png`: portrait casual-tycoon city restoration background used behind the live map.
+- `reactor_core.png`: tappable cartoon generator art used on the City screen and map.
 - `district_spritesheet.png`: source sheet for the ten district tiles.
 - `district_residential_block.png`
 - `district_hospital.png`
@@ -32,10 +34,10 @@ The PNG files are registered in `TheGridBlackoutCity.xcodeproj` under the app ta
 
 Assets were generated with the built-in image generation tool using project-specific prompts for:
 
-- cinematic blackout city portrait background,
-- circular emergency reactor core,
-- ten-tile isometric district sprite sheet,
-- emergency power surge event banner,
-- prestige rebuild contract banner.
+- cheerful idle-tycoon city portrait background,
+- chunky circular power generator button,
+- ten-tile cartoon isometric district sprite sheet,
+- playful emergency event banner,
+- bright prestige reward banner.
 
 The original generated files remain under the Codex generated image cache. Copies are stored in the project so the app does not depend on that cache.

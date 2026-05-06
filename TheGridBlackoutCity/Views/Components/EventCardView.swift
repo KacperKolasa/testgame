@@ -25,20 +25,23 @@ struct EventCardView: View {
                     Text("MISSION ALERT")
                         .font(.system(size: 10, weight: .black, design: .rounded))
                         .tracking(2)
-                        .foregroundStyle(GridTheme.danger)
+                        .foregroundStyle(Color.white)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .background(GridTheme.danger, in: Capsule())
                     Spacer()
                     Text("T-\(Int(event.remaining.rounded(.up)))")
                         .font(.caption.monospacedDigit().weight(.black))
-                        .foregroundStyle(GridTheme.warm)
+                        .foregroundStyle(Color.white)
                         .padding(.vertical, 4)
                         .padding(.horizontal, 8)
-                        .background(Color.black.opacity(0.30), in: Capsule())
+                        .background(GridTheme.violet, in: Capsule())
                 }
 
                 HStack(alignment: .top, spacing: 12) {
                     Image(systemName: definition.systemImage)
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(GridTheme.background)
+                        .foregroundStyle(Color.white)
                         .frame(width: 46, height: 46)
                         .background(
                             LinearGradient(colors: [GridTheme.danger, GridTheme.warm], startPoint: .topLeading, endPoint: .bottomTrailing),
@@ -101,7 +104,7 @@ struct EventCardView: View {
             .padding(14)
             .background(
                 LinearGradient(
-                    colors: [Color(hex: 0x2A1110).opacity(0.98), GridTheme.panelRaised.opacity(0.98), Color(hex: 0x111827).opacity(0.98)],
+                    colors: [Color(hex: 0xFFFFFF).opacity(0.98), Color(hex: 0xFFE8A8).opacity(0.98)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
@@ -109,9 +112,9 @@ struct EventCardView: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .stroke(GridTheme.danger.opacity(0.45), lineWidth: 1)
+                    .stroke(GridTheme.danger.opacity(0.55), lineWidth: 3)
             )
-            .shadow(color: GridTheme.danger.opacity(0.20), radius: 18, y: 10)
+            .shadow(color: GridTheme.danger.opacity(0.18), radius: 12, y: 7)
         }
     }
 

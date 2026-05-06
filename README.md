@@ -19,7 +19,7 @@ xcodebuild test -project TheGridBlackoutCity.xcodeproj -scheme TheGridBlackoutCi
 
 The MVP is fully offline and uses no server, ads, or in-app purchases. Visuals combine generated project-owned PNG assets with SwiftUI shapes, gradients, SF Symbols, Canvas drawing, and subtle animations.
 
-The city map is the emotional center of the game. District nodes begin as dark silhouettes, become outlined when restored, glow when powered, and show warning emphasis during relevant events. The generator button gives immediate power, floating gain feedback, haptics, and optional system sounds.
+The city map and production list are the emotional center of the game. Districts use colorful idle-tycoon sprites, production rows expose income/load/level, and buy/upgrade buttons use chunky reward-forward styling. The generator button gives immediate power, floating gain feedback, haptics, and optional system sounds.
 
 ## Architecture Summary
 

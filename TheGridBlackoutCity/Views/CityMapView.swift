@@ -16,7 +16,7 @@ struct CityMapView: View {
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .fill(
                             LinearGradient(
-                                colors: [Color(hex: 0x07101B), Color(hex: 0x0B1221), Color(hex: 0x090709)],
+                                colors: [Color(hex: 0x8BE8FF), Color(hex: 0xB8F27D), Color(hex: 0xFFE17A)],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
@@ -26,15 +26,15 @@ struct CityMapView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: size.width, height: size.height)
-                        .opacity(0.68)
-                        .saturation(0.95)
-                        .contrast(1.08)
+                        .opacity(1)
+                        .saturation(1.05)
+                        .contrast(1.02)
                         .allowsHitTesting(false)
 
                     Rectangle()
                         .fill(
                             LinearGradient(
-                                colors: [GridTheme.background.opacity(0.12), GridTheme.background.opacity(0.10), GridTheme.background.opacity(0.72)],
+                                colors: [Color.white.opacity(0.06), Color.clear, GridTheme.background.opacity(0.10)],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
@@ -63,12 +63,18 @@ struct CityMapView: View {
                             Text("CITY GRID")
                                 .font(.system(size: 10, weight: .black, design: .rounded))
                                 .tracking(2)
-                                .foregroundStyle(GridTheme.electricSoft)
+                                .foregroundStyle(Color.white)
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 8)
+                                .background(GridTheme.electric, in: Capsule())
                             Spacer()
                             Text("\(Int(state.resources.cityCompletion * 100))% ONLINE")
                                 .font(.system(size: 10, weight: .black, design: .rounded))
                                 .tracking(1.4)
-                                .foregroundStyle(GridTheme.warm)
+                                .foregroundStyle(Color.white)
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 8)
+                                .background(GridTheme.buyGreen, in: Capsule())
                         }
                         Spacer()
                     }
@@ -89,7 +95,7 @@ struct CityMapView: View {
                 )
             }
         }
-        .frame(height: 390)
+        .frame(height: 430)
     }
 
     private func nodeWidth(size: CGSize, for definition: DistrictDefinition) -> CGFloat {
@@ -116,7 +122,7 @@ struct CityMapView: View {
 
     private func roadLayer(size: CGSize) -> some View {
         Canvas { context, canvasSize in
-            let roadColor = GridTheme.electric.opacity(0.08)
+            let roadColor = GridTheme.coinGold.opacity(0.22)
             var main = Path()
             main.move(to: CGPoint(x: canvasSize.width * 0.13, y: canvasSize.height * 0.51))
             main.addLine(to: CGPoint(x: canvasSize.width * 0.88, y: canvasSize.height * 0.51))
@@ -130,7 +136,7 @@ struct CityMapView: View {
             var diagonal = Path()
             diagonal.move(to: CGPoint(x: canvasSize.width * 0.20, y: canvasSize.height * 0.82))
             diagonal.addLine(to: CGPoint(x: canvasSize.width * 0.82, y: canvasSize.height * 0.20))
-            context.stroke(diagonal, with: .color(GridTheme.warm.opacity(0.07)), style: StrokeStyle(lineWidth: 5, lineCap: .round, dash: [8, 9]))
+            context.stroke(diagonal, with: .color(GridTheme.electric.opacity(0.16)), style: StrokeStyle(lineWidth: 5, lineCap: .round, dash: [8, 9]))
         }
         .allowsHitTesting(false)
     }
@@ -188,11 +194,11 @@ struct CityMapView: View {
                 let lineColor: Color
                 let width: CGFloat
                 if district.isPowered {
-                    lineColor = GridTheme.electric.opacity(0.22 + pulse * 0.18)
-                    width = 2.2
+                    lineColor = GridTheme.coinGold.opacity(0.42 + pulse * 0.26)
+                    width = 3.4
                 } else {
-                    lineColor = GridTheme.secondaryText.opacity(0.16)
-                    width = 1.2
+                    lineColor = Color.white.opacity(0.30)
+                    width = 1.6
                 }
                 context.stroke(path, with: .color(lineColor), style: StrokeStyle(lineWidth: width, lineCap: .round, dash: district.isPowered ? [] : [4, 6]))
             }
@@ -211,14 +217,14 @@ private struct GeneratorCore: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 116, height: 116)
-                .shadow(color: GridTheme.electric.opacity(0.34 + pulse * 0.18), radius: 18, y: 4)
+                .shadow(color: GridTheme.coinGold.opacity(0.34 + pulse * 0.18), radius: 18, y: 4)
             Circle()
-                .stroke(GridTheme.electric.opacity(0.42), style: StrokeStyle(lineWidth: 3, dash: [9, 7]))
+                .stroke(Color.white.opacity(0.72), style: StrokeStyle(lineWidth: 3, dash: [9, 7]))
                 .frame(width: 90, height: 90)
                 .rotationEffect(.degrees(current * 360))
             Image(systemName: "bolt.fill")
                 .font(.system(size: 25, weight: .black))
-                .foregroundStyle(GridTheme.background)
+                .foregroundStyle(Color.white)
         }
     }
 }
@@ -285,12 +291,12 @@ private struct DistrictMapNode: View {
 
     private var fill: Color {
         if !state.isRestored {
-            return Color(hex: 0x090D14)
+            return Color.white.opacity(0.44)
         }
         if state.isPowered {
-            return isEventDistrict ? GridTheme.danger.opacity(0.40 + pulse * 0.18) : GridTheme.electric.opacity(0.30 + pulse * 0.10)
+            return isEventDistrict ? GridTheme.danger.opacity(0.40 + pulse * 0.18) : GridTheme.buyGreen.opacity(0.30 + pulse * 0.10)
         }
-        return GridTheme.panelRaised.opacity(0.68)
+        return GridTheme.panelRaised.opacity(0.72)
     }
 
     private var stroke: Color {
@@ -298,16 +304,16 @@ private struct DistrictMapNode: View {
             return GridTheme.danger.opacity(0.82)
         }
         if state.isPowered {
-            return GridTheme.electric.opacity(0.58)
+            return GridTheme.buyGreen.opacity(0.82)
         }
         if state.isRestored {
-            return GridTheme.secondaryText.opacity(0.24)
+            return GridTheme.coinGold.opacity(0.42)
         }
-        return Color.white.opacity(0.06)
+        return Color.white.opacity(0.48)
     }
 
     private var shadow: Color {
-        isEventDistrict ? GridTheme.danger.opacity(0.25) : GridTheme.electric.opacity(0.22)
+        isEventDistrict ? GridTheme.danger.opacity(0.25) : GridTheme.coinGold.opacity(0.28)
     }
 
     private var abbreviation: String {

@@ -19,12 +19,27 @@ struct UpgradesView: View {
                         accent: GridTheme.warm
                     )
 
-                    Picker("Category", selection: $viewModel.selectedUpgradeCategory) {
-                        ForEach(UpgradeCategory.allCases) { category in
-                            Text(category.rawValue).tag(category)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(UpgradeCategory.allCases) { category in
+                                Button {
+                                    viewModel.selectedUpgradeCategory = category
+                                } label: {
+                                    Text(category.rawValue)
+                                        .font(.system(size: 13, weight: .black, design: .rounded))
+                                        .foregroundStyle(viewModel.selectedUpgradeCategory == category ? Color.white : GridTheme.text)
+                                        .padding(.vertical, 9)
+                                        .padding(.horizontal, 12)
+                                        .background(
+                                            viewModel.selectedUpgradeCategory == category ? GridTheme.violet : GridTheme.panelRaised,
+                                            in: Capsule()
+                                        )
+                                        .overlay(Capsule().stroke(Color.white.opacity(0.8), lineWidth: 2))
+                                }
+                                .buttonStyle(.plain)
+                            }
                         }
                     }
-                    .pickerStyle(.segmented)
 
                     ForEach(filteredUpgrades) { upgrade in
                         UpgradeCard(upgrade: upgrade)

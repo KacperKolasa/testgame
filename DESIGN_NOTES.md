@@ -76,6 +76,6 @@ Snow City is the first alternate modifier. It increases baseline demand and make
 
 ## Visual Direction
 
-The visual language is a dark modern city: off-black/navy background, warm building windows, electric-blue grid lines, restrained cards, compact metrics, and smooth state changes. The map avoids chaotic tycoon clutter and instead uses legible glowing blocks, roads, cables, and warning strokes.
+The visual language now targets casual idle-tycoon readability rather than a serious command dashboard: bright sky gradients, chunky rounded panels, gold and green purchase buttons, bold outlined district art, large resource strips, visible production rows, and reward-forward progress bars.
 
-Unrestored districts are dark. Restored but unpowered districts are dim and outlined. Powered districts glow with animated windows and cable lines. Event-related districts receive a red warning emphasis.
+Unrestored districts are desaturated and locked-looking. Restored but unpowered districts are visible but muted. Powered districts use bright outlines and stronger saturation. Event-related districts receive a red warning emphasis.
