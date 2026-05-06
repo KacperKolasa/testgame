@@ -1,0 +1,107 @@
+workflows:
+  ios-simulator-build:
+    name: iOS Simulator Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    environment:
+      xcode: latest
+
+    scripts:
+      - name: Show Xcode version
+        script: |
+          xcodebuild -version
+
+      - name: Find Xcode project or workspace
+        script: |
+          set -e
+
+          echo "Searching for Xcode workspace or project..."
+
+          WORKSPACE=$(find . -name "*.xcworkspace" -not -path "*/DerivedData/*" | head -n 1 || true)
+          PROJECT=$(find . -name "*.xcodeproj" -not -path "*/DerivedData/*" | head -n 1 || true)
+
+          if [ -n "$WORKSPACE" ]; then
+            echo "Using workspace: $WORKSPACE"
+            echo "BUILD_TYPE=workspace" >> $CM_ENV
+            echo "BUILD_FILE=$WORKSPACE" >> $CM_ENV
+          elif [ -n "$PROJECT" ]; then
+            echo "Using project: $PROJECT"
+            echo "BUILD_TYPE=project" >> $CM_ENV
+            echo "BUILD_FILE=$PROJECT" >> $CM_ENV
+          else
+            echo "No .xcodeproj or .xcworkspace found."
+            exit 1
+          fi
+
+      - name: Find build scheme
+        script: |
+          set -e
+
+          if [ "$BUILD_TYPE" = "workspace" ]; then
+            LIST_OUTPUT=$(xcodebuild -list -workspace "$BUILD_FILE")
+          else
+            LIST_OUTPUT=$(xcodebuild -list -project "$BUILD_FILE")
+          fi
+
+          echo "$LIST_OUTPUT"
+
+          SCHEME=$(echo "$LIST_OUTPUT" | awk '
+            /Schemes:/ { found=1; next }
+            found && NF {
+              gsub(/^[ \t]+|[ \t]+$/, "", $0)
+              print
+              exit
+            }
+          ')
+
+          if [ -z "$SCHEME" ]; then
+            echo "No scheme found. The Xcode scheme may not be shared."
+            exit 1
+          fi
+
+          echo "Using scheme: $SCHEME"
+          echo "SCHEME=$SCHEME" >> $CM_ENV
+
+      - name: Build unsigned iOS Simulator app
+        script: |
+          set -e
+
+          if [ "$BUILD_TYPE" = "workspace" ]; then
+            BUILD_ARGUMENT="-workspace $BUILD_FILE"
+          else
+            BUILD_ARGUMENT="-project $BUILD_FILE"
+          fi
+
+          xcodebuild build \
+            $BUILD_ARGUMENT \
+            -scheme "$SCHEME" \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO | tee /tmp/xcodebuild.log
+
+      - name: Package Simulator app for Appetize
+        script: |
+          set -e
+
+          APP_PATH=$(find build/Build/Products/Debug-iphonesimulator -type d -name "*.app" | head -n 1)
+
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app file found."
+            exit 1
+          fi
+
+          echo "Found app: $APP_PATH"
+
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" TheGridBlackoutCity-simulator.zip
+
+          echo "Created TheGridBlackoutCity-simulator.zip"
+
+    artifacts:
+      - TheGridBlackoutCity-simulator.zip
+      - /tmp/xcodebuild.log
+      - build/Build/Products/Debug-iphonesimulator/*.app
